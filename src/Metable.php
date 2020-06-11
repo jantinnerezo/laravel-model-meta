@@ -2,20 +2,18 @@
 
 namespace Jantinnerezo\LaravelModelMeta;
 
-trait LaravelModelMeta
+trait Metable
 {
     /**
-     * The attributes that should be cast to native types.
+     * Initialize the trait
      *
-     * @var array
+     * @return void
      */
-    protected $casts = [
-        'meta' => 'collection'
-    ];
-
-    protected $attributes = [
-        'meta' => ''
-    ];
+    protected function initializeMetable()
+    {
+        $this->casts['meta'] = 'collection';
+        $this->attributes['meta'] = '';
+    }
 
     public function getMeta(string $key)
     {
