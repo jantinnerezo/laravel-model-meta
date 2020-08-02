@@ -25,6 +25,11 @@ trait Metable
         return $this->meta->all();
     }
 
+    public function getMetaOnly(array $keys): array
+    {
+        return $this->meta->only($keys)->all();
+    }
+
     public function setMeta(string $key, $value): void
     {
         $this->meta = $this->meta->put($key, $value);
