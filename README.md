@@ -1,30 +1,101 @@
-# Very short description of the package
+# Laravel Model Meta
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/jantinnerezo/laravel-model-meta.svg?style=flat-square)](https://packagist.org/packages/jantinnerezo/laravel-model-meta)
-[![Build Status](https://img.shields.io/travis/jantinnerezo/laravel-model-meta/master.svg?style=flat-square)](https://travis-ci.org/jantinnerezo/laravel-model-meta)
-[![Quality Score](https://img.shields.io/scrutinizer/g/jantinnerezo/laravel-model-meta.svg?style=flat-square)](https://scrutinizer-ci.com/g/jantinnerezo/laravel-model-meta)
-[![Total Downloads](https://img.shields.io/packagist/dt/jantinnerezo/laravel-model-meta.svg?style=flat-square)](https://packagist.org/packages/jantinnerezo/laravel-model-meta)
+A very basic and simple metable trait that adds additional fields to your existing eloquent models. Main purpose for this package is the ability to add meta fields for MySQL versions lower than 5.7 without using MySQL JSON fields.
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+I used it personally for my projects that is hosted with MySQL version lower than 5.7. I recommend using other packages that supports MySQL JSON fields if your project's MySQL version is 5.7 only.
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
+
 composer require jantinnerezo/laravel-model-meta
+
 ```
 
 ## Usage
 
-``` php
-// Usage description here
+Create a migration that adds new field called "meta" to your existing table and then add the Metable trait to the model.
+
+```php
+
+use Jantinnerezo\LaravelModelMeta\Metable;
+
+
+class YourModel extends Model
+{
+	use Metable;
+}
+
+```
+
+### Set meta
+
+```php
+
+$yourModel = YourModel::find(1);
+$yourModel->setMeta(
+	'intro',  // Key
+	"Hey Jude, don't make it bad!" // Value
+);
+
+```
+
+### Sync multiple meta
+
+```php
+
+$yourModel = YourModel::find(1);
+$yourModel->syncMeta([
+	'key1' => 'First key',
+	'key2' => 'Second key'
+]);
+
+```
+
+### Remove meta
+
+```php
+
+$yourModel = YourModel::find(1);
+$yourModel->removeMeta('key');
+
+```
+
+### Get single meta
+
+```php
+
+$yourModel = YourModel::find(1);
+$yourModel->getMeta('key');
+
+```
+
+### Get multiple meta
+
+```php
+
+$yourModel = YourModel::find(1);
+$yourModel->getMetaOnly(['key1','key2']);
+
+```
+
+### Get all meta
+
+```php
+
+$yourModel = YourModel::find(1);
+$yourModel->getAllMeta();
+
 ```
 
 ### Testing
 
-``` bash
+```bash
+
 composer test
+
 ```
 
 ### Changelog
@@ -41,13 +112,10 @@ If you discover any security related issues, please email erezojantinn@gmail.com
 
 ## Credits
 
-- [Jantinn Erezo](https://github.com/jantinnerezo)
-- [All Contributors](../../contributors)
+-   [Jantinn Erezo](https://github.com/jantinnerezo)
+
+-   [All Contributors](../../contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## PHP Package Boilerplate
-
-This package was generated using the [PHP Package Boilerplate](https://laravelpackageboilerplate.com).
