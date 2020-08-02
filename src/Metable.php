@@ -20,7 +20,7 @@ trait Metable
         return $this->meta->get($key) ?? null;
     }
 
-    public function getAllMeta()
+    public function getAllMeta(): array
     {
         return $this->meta->all();
     }
@@ -34,6 +34,12 @@ trait Metable
     public function syncMeta(array $values): void
     {
         $this->meta = $this->meta->merge($values ?? []);
+        $this->save();
+    }
+
+    public function removeMeta(string $key): void
+    {
+        $this->meta = $this->meta->pull($key);
         $this->save();
     }
 }
